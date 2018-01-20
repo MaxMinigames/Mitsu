@@ -60,7 +60,7 @@ public class ConnectScheduler {
 						
 					}
 					
-					if(list.get(MainClass.getInstance().getConfig().getString("Type")).size() == 1){
+					if(list.get(MainClass.getInstance().getConfig().getString("Type")).size() <= 1){
 						
 						newType = MainClass.getInstance().getConfig().getString("Type");
 						
