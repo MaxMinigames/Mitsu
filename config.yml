@@ -1,0 +1,13 @@
+#========== DATABASE ==========
+
+Adress: "localhost"
+User: "root"
+Password: ""
+Database: ""
+Port: 3306
+UseSSL: false
+
+#========== SYSTEM ==========
+
+Server: ""
+Type: ""
