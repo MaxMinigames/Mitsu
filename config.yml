@@ -12,3 +12,4 @@ UseSSL: false
 Server: ""
 Type: ""
 Directory: ''
+File: "run.bat"

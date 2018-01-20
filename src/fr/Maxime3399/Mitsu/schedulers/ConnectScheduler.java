@@ -77,7 +77,7 @@ public class ConnectScheduler {
 									if(Bukkit.getOnlinePlayers().size() < 1){
 										
 										try {
-											Runtime.getRuntime().exec(MainClass.getInstance().getConfig().getString("Directory")+"\\"+newType+"\\run.bat");
+											Runtime.getRuntime().exec(MainClass.getInstance().getConfig().getString("Directory")+"\\"+newType+"\\"+MainClass.getInstance().getConfig().getString("File"));
 										} catch (IOException e) {
 											e.printStackTrace();
 										}
