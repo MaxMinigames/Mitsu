@@ -1,16 +1,21 @@
 package fr.Maxime3399.Mitsu;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import fr.Maxime3399.Mitsu.schedulers.SchedulersManager;
 import fr.Maxime3399.Mitsu.utils.DataUtils;
 import fr.Maxime3399.Mitsu.utils.MySQLUtils;
 
-public class MainClass extends JavaPlugin{
+public class MainClass extends JavaPlugin implements PluginMessageListener{
 	
 	private static Plugin plugin;
 	
@@ -69,6 +74,8 @@ public class MainClass extends JavaPlugin{
 								
 							}else{
 								
+								this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+								this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
 								String server = getConfig().getString("Server");
 								
 								DataUtils.setServerIntInfo(server, "players", 0);
@@ -97,6 +104,26 @@ public class MainClass extends JavaPlugin{
 	
 	public static Plugin getInstance(){
 		return plugin;
+	}
+	
+	public static void teleportToServer(Player player, String server){
+		
+		try{
+			ByteArrayOutputStream ba = new ByteArrayOutputStream();
+			DataOutputStream out = new DataOutputStream(ba);
+			out.writeUTF("Connect");
+			out.writeUTF(server);
+			player.sendPluginMessage(Bukkit.getPluginManager().getPlugin("Mitsu"), "BungeeCord", ba.toByteArray());
+		}catch(Exception e){
+			player.sendMessage("§cUne erreur est survenue !");
+			player.playSound(player.getLocation(), Sound.ARROW_HIT, 100, 1);
+		}
+		
+	}
+
+	@Override
+	public void onPluginMessageReceived(String arg0, Player arg1, byte[] arg2) {
+		
 	}
 
 }
