@@ -25,6 +25,12 @@ public class DataUtils {
 			e.printStackTrace();
 		}
 		
+		try{
+			MySQLUtils.state.executeUpdate("CREATE TABLE IF NOT EXISTS `"+database+"`.`mitsu_infos` ( `id` VARCHAR(255) NOT NULL , `info` VARCHAR(255) NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public static boolean serverExist(String server){
@@ -97,6 +103,23 @@ public class DataUtils {
 		
 	}
 	
+	public static String getServerConnect(){
+		
+		String result = null;
+		
+		try{
+			ResultSet r = MySQLUtils.state.executeQuery("SELECT * FROM `"+database+"`.`mitsu_infos` WHERE id = 'serverConnect'");
+			r.next();
+			result = r.getString("info");
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
 	public static String getServerStringInfo(String server, String info){
 		
 		String result = null;
@@ -134,7 +157,7 @@ public class DataUtils {
 	public static void setServerStringInfo(String server, String info, String value){
 		
 		try{
-			MySQLUtils.state.executeUpdate("UPDATE `"+database+"`.`mitsu_servers` SET `info-"+info+"` = '"+value+"' WHERE `mitsu_servers`.`id` = '"+server+"';");
+			MySQLUtils.state.executeUpdate("UPDATE `"+database+"`.`mitsu_servers` SET `"+info+"` = '"+value+"' WHERE `mitsu_servers`.`id` = '"+server+"';");
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -144,7 +167,7 @@ public class DataUtils {
 	public static void setServerIntInfo(String server, String info, int value){
 		
 		try{
-			MySQLUtils.state.executeUpdate("UPDATE `"+database+"`.`mitsu_servers` SET `info-"+info+"` = '"+value+"' WHERE `mitsu_servers`.`id` = '"+server+"';");
+			MySQLUtils.state.executeUpdate("UPDATE `"+database+"`.`mitsu_servers` SET `"+info+"` = '"+value+"' WHERE `mitsu_servers`.`id` = '"+server+"';");
 		}catch(SQLException e){
 			e.printStackTrace();
 		}

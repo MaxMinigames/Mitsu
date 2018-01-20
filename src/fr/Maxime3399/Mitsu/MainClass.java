@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.Maxime3399.Mitsu.schedulers.SchedulersManager;
 import fr.Maxime3399.Mitsu.utils.DataUtils;
 import fr.Maxime3399.Mitsu.utils.MySQLUtils;
 
@@ -35,19 +36,42 @@ public class MainClass extends JavaPlugin{
 			DataUtils.registerPlugin();
 			if(!DataUtils.serverExist(getConfig().getString("Server"))){
 				
-				Bukkit.getConsoleSender().sendMessage("§eMitsu §d: §cThis server was not found in the database. Please add it or modify the file \"config.yml\".");
+				Bukkit.getConsoleSender().sendMessage("§eMitsu §d: §cThis server was not found in the database ! Please add it or modify the file \"config.yml\".");
 				Bukkit.getPluginManager().disablePlugin(this);
 				
 			}else{
 				
 				if(!DataUtils.typeExist(getConfig().getString("Type"))){
 					
-					Bukkit.getConsoleSender().sendMessage("§eMitsu §d: §cThe type of this server is invalid! Please add it to the database or modify the file \"config.yml\".");
+					Bukkit.getConsoleSender().sendMessage("§eMitsu §d: §cThe type of this server is invalid ! Please add it to the database or modify the file \"config.yml\".");
 					Bukkit.getPluginManager().disablePlugin(this);
 					
 				}else{
 					
-					//START
+					if(!DataUtils.serverExist(DataUtils.getServerStringInfo(getConfig().getString("Server"), "next"))){
+						
+						Bukkit.getConsoleSender().sendMessage("§eMitsu §d: §cThe following server for this server is invalid ! Please modify it in the database.");
+						Bukkit.getPluginManager().disablePlugin(this);
+						
+					}else{
+						
+						if(!DataUtils.serverExist(DataUtils.getServerConnect())){
+							
+							Bukkit.getConsoleSender().sendMessage("§eMitsu §d: §cThe general following server is invalid ! Please modify it in the database.");
+							Bukkit.getPluginManager().disablePlugin(this);
+							
+						}else{
+							
+							String server = getConfig().getString("Server");
+							
+							DataUtils.setServerStringInfo(server, "status", "online");
+							DataUtils.setServerIntInfo(server, "players", 0);
+							DataUtils.setServerStringInfo(server, "type", getConfig().getString("Type"));
+							SchedulersManager.registerSchedulers();
+							
+						}
+						
+					}
 					
 				}
 				
