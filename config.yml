@@ -11,3 +11,4 @@ UseSSL: false
 
 Server: ""
 Type: ""
+Directory: ''

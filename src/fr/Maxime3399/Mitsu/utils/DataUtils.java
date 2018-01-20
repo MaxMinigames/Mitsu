@@ -120,6 +120,16 @@ public class DataUtils {
 		
 	}
 	
+	public static void setServerConnect(String server){
+		
+		try{
+			MySQLUtils.state.executeUpdate("UPDATE `"+database+"`.`mitsu_infos` SET `info` = '"+server+"' WHERE `mitsu_infos`.`id` = 'serverConnect';");
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static String getServerStringInfo(String server, String info){
 		
 		String result = null;

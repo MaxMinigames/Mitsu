@@ -62,12 +62,20 @@ public class MainClass extends JavaPlugin{
 							
 						}else{
 							
-							String server = getConfig().getString("Server");
-							
-							DataUtils.setServerStringInfo(server, "status", "online");
-							DataUtils.setServerIntInfo(server, "players", 0);
-							DataUtils.setServerStringInfo(server, "type", getConfig().getString("Type"));
-							SchedulersManager.registerSchedulers();
+							if(getConfig().getString("Directory").equalsIgnoreCase("")){
+								
+								Bukkit.getConsoleSender().sendMessage("§eMitsu §d: §cPlease fill in the directory field in the \"config.yml\" file.");
+								Bukkit.getPluginManager().disablePlugin(this);
+								
+							}else{
+								
+								String server = getConfig().getString("Server");
+								
+								DataUtils.setServerIntInfo(server, "players", 0);
+								DataUtils.setServerStringInfo(server, "type", getConfig().getString("Type"));
+								SchedulersManager.registerSchedulers();
+								
+							}
 							
 						}
 						
@@ -78,6 +86,12 @@ public class MainClass extends JavaPlugin{
 			}
 			
 		}
+		
+	}
+	
+	public void onDisable(){
+		
+		DataUtils.setServerStringInfo(getConfig().getString("Server"), "status", "offline");
 		
 	}
 	
